@@ -9,6 +9,13 @@ import profile from '../assets/images/profile.png'
 import logout from '../assets/images/Logout.png'
 import { widthPercentageToDP } from '../const';
 import { EMPLOYEE_LIST } from '../config/EmployeeList'
+import { StackActions, NavigationActions } from 'react-navigation';
+
+const onlogOff = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Login' })],
+})
+
 class Homepage extends Component {
     constructor(props){
         super(props)
@@ -20,7 +27,7 @@ class Homepage extends Component {
     }
     callLogout = () =>{
         this.props.loggedOut()
-        this.props.navigation.navigate('Login')
+        this.props.navigation.dispatch(onlogOff)
     }
     
     _renderEmployeeList = (rowItem) => {
@@ -52,7 +59,7 @@ class Homepage extends Component {
                             <Text style={styles.homepage_text}>Home page</Text>
                         </View>
                         <View style ={{flex : 0.8}}>
-                            <TouchableOpacity onPress={()=>this.callLogout()} style ={{alignSelf:'center'}}>
+                            <TouchableOpacity onPress={this.callLogout} style ={{alignSelf:'center'}}>
                                 <Image source={logout} style={{ height : 30, width:30}}/>
                             </TouchableOpacity>
                         </View>
