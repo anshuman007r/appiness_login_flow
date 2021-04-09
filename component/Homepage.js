@@ -5,18 +5,43 @@ import Logo from '../assets/images/appiness.png'
 import styles from '../style';
 import { connect } from 'react-redux'
 import { loggedOut } from '../storage/action'
+import profile from '../assets/images/profile.png'
 import logout from '../assets/images/Logout.png'
 import { widthPercentageToDP } from '../const';
+import { EMPLOYEE_LIST } from '../config/EmployeeList'
 class Homepage extends Component {
     constructor(props){
         super(props)
         this.state={
-            profile : props.profile
+            profile : props.profile,
+            user : EMPLOYEE_LIST.user
+            
         }
     }
     callLogout = () =>{
         this.props.loggedOut()
         this.props.navigation.navigate('Login')
+    }
+    
+    _renderEmployeeList = (rowItem) => {
+        const {item, index}  = rowItem;
+        console.log(item)
+        return (
+            <View style={{backgroundColor:'#d4d4d4', width :'90%', alignSelf:'center',borderColor:'grey',borderWidth:1,borderRadius:10,paddingHorizontal :10, paddingVertical : 10,  marginTop :10,justifyContent :'center', flexDirection: "row"}} key={index}>
+                <View style ={{flex : 1.2, alignItems :'center', justifyContent :'center'}}>
+                    <Image source={profile} style={{height : 75, width : 70}}/>
+                </View>
+                <View style ={{flex : 2.8}}>
+                    <Text style={{ color: '#000', fontFamily: 'WorkSans-Regular',fontSize: 14, alignSelf: 'flex-start', }} numberOfLines ={1} ellipsizeMode={'tail'}><Text style={{fontFamily : 'WorkSans-SemiBold'}}>Name : </Text>{item.name}</Text>
+                    <View style={{flexDirection:'row',marginTop:3, justifyContent :'space-between'}}>
+                        <Text style={{ color: '#000', fontSize:14,flex :1.2, fontFamily: 'WorkSans-Regular',}} numberOfLines={1}><Text style={{fontFamily : 'WorkSans-SemiBold'}}>Age : </Text>{item.age}</Text>
+                        <Text style={{ color: '#000', fontSize:14,flex :1.2, fontFamily: 'WorkSans-Regular',}} numberOfLines={2}><Text style={{fontFamily : 'WorkSans-SemiBold'}}>Gender : </Text>{item.gender}</Text>
+                    </View>
+                    <Text style={{ color: '#000', marginTop:3, fontFamily: 'WorkSans-Regular',fontSize: 14, alignSelf: 'flex-start', }} numberOfLines ={1} ellipsizeMode={'tail'}><Text style={{fontFamily : 'WorkSans-SemiBold'}}>Email : </Text>{item.email}</Text>
+                    <Text style={{ color: '#000', marginTop:3, fontFamily: 'WorkSans-Regular',fontSize: 14, alignSelf: 'flex-start'}} numberOfLines ={1} ellipsizeMode={'tail'}><Text style={{fontFamily : 'WorkSans-SemiBold'}}>Mobile number : </Text>{item.phoneNo}</Text>
+                </View>
+            </View>
+        )
     }
 
     render() {
@@ -38,9 +63,14 @@ class Homepage extends Component {
                                 <Image source={Logo} style={styles.signup_image_path} />
                             </View>
                         </View>
-                        <View style={styles.welcome_container}>
-                            <Text style={styles.homepage_welcome_text }>Hi {this.state.profile.name}, welcome!</Text>
-                        </View>
+                        <FlatList
+                            data={this.state.user}
+                            horizontal={false}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={this._renderEmployeeList}
+                            style={{marginBottom:20}}
+                        />
                     </Content>
             </Container>
         )

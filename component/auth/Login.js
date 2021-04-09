@@ -105,6 +105,8 @@ class Login extends Component {
         if(password == 'hruday123' && email == "hruday@gmail.com"){
             this.props.logged(userInfo)
             this.props.navigation.dispatch(onlogOn)
+        }else{
+            Alert.alert('', 'Invalid username or password')
         }
     }
 
@@ -221,7 +223,7 @@ class Login extends Component {
                                         {this.state.errorPassword ?
                                             <View style={styles.error_pwd}>
                                                 <Text style={styles.error_password}>
-                                                    Minimum 8 characters & 1 special character required
+                                                    Minimum 8 characters 
                                            </Text>
                                             </View> : <View></View>
                                         }
